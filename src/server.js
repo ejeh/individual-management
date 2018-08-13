@@ -1,11 +1,8 @@
 'use strict';
 
-/*********************************************************
- Author:                Swam Didam Bobby 
- Client:                CARMANIA APP TSS Induction
- Year:                  2018
- File Discription:      Server creation
-/********************************************************/
+// *created by Godfrey on 13-08-2018
+// *updated by Godfrey on 13-08-2018
+
 
 //=============================================================================
 /**

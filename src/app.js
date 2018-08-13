@@ -1,11 +1,8 @@
-
 'use strict';
 
-/*********************************************************
- Author:                Swam Didam Bobby 
- Client:                CARMANIA APP TSS Induction
- Year:                  2018
-/********************************************************/
+// *created by Godfrey on 13-08-2018
+// *updated by Godfrey on 13-08-2018
+
 
 require('dotenv').config();
 
@@ -84,7 +81,7 @@ app.use((req, res, next) => {
 app.get("/", (req, res) => {
     return res.status(200).json({info:"welcome to App home"});
 })
-app.use('/state', require('./routes/routes'));
+app.use('/settingsManagement', require('./routes/routes'));
 
 
 

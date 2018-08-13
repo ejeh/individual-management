@@ -1,11 +1,8 @@
 'use strict'
 
-/*********************************************************
- Author:                Godfrey Ejeh
- Client:                
- Year:                  2018
- File Discription:      Model for end state
-/********************************************************/
+// *created by Godfrey on 13-08-2018
+// *updated by Godfrey on 13-08-2018
+
 
 // model dependencies
 const

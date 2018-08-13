@@ -1,11 +1,8 @@
 'use strict';
 
-/*********************************************************
- Authors:               Godfrey Ejeh, Swam Didam Bobby 
- Client:              
- Year:                  2018
- File Discription:      Routing processes
-/********************************************************/
+// *created by Godfrey on 13-08-2018
+// *updated by Godfrey on 13-08-2018
+
 
 /**
  * Dependencies
@@ -19,9 +16,9 @@ const
     crypto = require('crypto'),
     mongoose = require('mongoose'),
     request = require('request'),
-    state = require('../models/state'),
-    lga = require('../models/lga');
-// vehicle  = require('../models/utils/vehicleUtils');
+    state = require('../models/utils/stateUtils'),
+    lga = require('../models/utils/lgaUtils');
+
 
 
 /**
@@ -29,70 +26,101 @@ const
 */
 
 const router = express.Router();
-
-
-
-
 //============================================================================================
 // Meant to create State
 //============================================================================================
 
-
 router.post("/createState", function (req, res) {
-    return state.create(req.body)
+    return state.createState(req.body)
         .then(doc => {
-            return res.status(200).json({ message: "State created", doc: doc });
+            return res.status(200).json({
+                status: 200,
+                message: "State created",
+                doc: doc
+            });
         })
         .catch(err => {
-            return res.status(500).json({ message: "Could not create state", err: err });
+            return res.status(500).json({
+                message: "Could not create state",
+                err: err
+            });
 
         })
 
 });
+// //=============================================================================================
+// //Updating an existing state
+// //=============================================================================================
+
+router.put('/updateState', (req, res) => {
+    return state.updateState(req.body.filter, req.body.update)
+        .then(doc => {
+            return res.status(200).json({
+                status: 200,
+                message: "details updated",
+                doc: doc
+            });
+        })
+        .catch(err => {
+
+            return res.status(400).json({
+                status: 400,
+                message: "Unfortunately an error has occured",
+                err: err
+            });
+
+        });
+});
+
+//Vehicle -- Meant to get a registered state
+
+router.post('/getState', (req, res) => {
+    return state.getState(req.body)
+        .then(doc => {
+            return res.status(200).json({
+                status: 200,
+                message: "Successfully got a state",
+                doc: doc
+            });
+        })
+        .catch(err => {
+            return res.status(400).json({
+                status: 400,
+                message: "Sorry an error has occured",
+                err: err
+            });
+        });
+});
+
 
 //=============================================================================================
 // Search all registered states
 //=============================================================================================
 
-
-router.get("/viewAllStates", function (req, res) {
-    return state.find({})
+router.post("/getAllStates", function (req, res) {
+    return state.getAllStates(req.body)
         .then(doc => {
-            return res.status(200).json({ message: "All states", doc: doc });
+            return res.status(200).json({
+                status: 200,
+                message: "All states",
+                doc: doc
+            });
         })
         .catch(err => {
-            return res.status(500).json({ message: "Cannot display list", err: err });
+            return res.status(500).json({
+                status: 200,
+                message: "Cannot display list",
+                err: err
+            });
         })
 
 });
 
-// //=============================================================================================
-// //Updating an existing state
-// //=============================================================================================
+// deleteState -- Meant to delete a state
 
-router.put('/updateState/:id', (req, res) => {
-    return state.findOneAndUpdate({ _id: req.params.id },
-        { $set: req.body })
+router.delete('/deleteState', (req, res) => {
+    return state.deleteState(req.body)
         .then(doc => {
-            log.info("Successfully updated user's details");
-            return res.status(200).json({ message: "details updated", doc: doc });
-        })
-        .catch(err => {
-            console.log(err);
-            return res.status(500).json({ message: "Unfortunately an error has occured" });
-
-        });
-});
-
-
-
-
-// deleteVehicle -- Meant to delete a state
-
-router.delete('/deleteState/:id', (req, res) => {
-    return state.findOneAndRemove({ _id: req.params.id })
-        .then(doc => {
-            log.info("Successfully deleted a state");
             return res.status(200).json({
                 status: 200,
                 message: "State deleted",
@@ -100,7 +128,6 @@ router.delete('/deleteState/:id', (req, res) => {
             });
         })
         .catch(err => {
-            console.log(err);
             return res.status(400).json({
                 status: 400,
                 message: "State not found",
@@ -115,49 +142,65 @@ router.delete('/deleteState/:id', (req, res) => {
 
 
 router.post("/createLga", function (req, res) {
-    const randomElement = (array) => {
-        return array[Math.floor(Math.random() * array.length)];
-    }
-
-    const characters = '1234567890';
-    let result = '';
-    for (let i = 0; i < 6; i++) {
-        result += randomElement(characters);
-    }
-
-    let brn = result;
-    let tin = `${req.body.stateCode}${req.body.lgaCode}${brn}`
-    let form = {
-        name: req.body.name,
-        lgaCode: req.body.lgaCode,
-        stateCode: req.body.stateCode,
-        tin
-
-
-    }
-    return lga.create(form)
+    return lga.createLga(req.body)
         .then(doc => {
-            return res.status(200).json({ message: "lga created", doc: doc });
+            return res.status(200).json({
+                status: 200,
+                message: "lga created",
+                doc: doc
+            });
         })
         .catch(err => {
-            return res.status(500).json({ message: "Could not create LGA", err: err });
+            return res.status(400).json({
+                status: 400,
+                message: "Could not create LGA",
+                err: err
+            });
 
         })
 
 });
 
+//=============================================================================================
+// get a LGA
+//=============================================================================================
 
+router.post("/getLga", function (req, res) {
+    return lga.getLga(req.body)
+        .then(doc => {
+            return res.status(200).json({
+                status: 200,
+                message: "LGA",
+                doc: doc
+            });
+        })
+        .catch(err => {
+            return res.status(400).json({
+                status: 200,
+                message: "Cannot display list",
+                err: err
+            });
+        })
+
+});
 //=============================================================================================
 // Search all registered LGA
 //=============================================================================================
 
-router.get("/viewAllLga", function (req, res) {
-    return lga.find({})
+router.post("/getAllLga", function (req, res) {
+    return lga.getAllLga(req.body)
         .then(doc => {
-            return res.status(200).json({ message: "All LGA", doc: doc });
+            return res.status(200).json({
+                status: 200,
+                message: "All LGA", doc: doc
+            });
         })
         .catch(err => {
-            return res.status(500).json({ message: "Cannot display list", err: err });
+            return res.status(400).json({
+                status: 200,
+                message: "Cannot display list",
+                err: err
+            });
         })
 
 });
@@ -165,12 +208,14 @@ router.get("/viewAllLga", function (req, res) {
 // //Updating an existing LGA 
 // //=============================================================================================
 
-router.put('/updateLga/:id', (req, res) => {
-    return lga.findOneAndUpdate({ _id: req.params.id },
-        { $set: req.body })
+router.put('/updateLga', (req, res) => {
+    return lga.updateLga(req.body.filter, req.body.update)
         .then(doc => {
-            log.info("Successfully updated LGA details");
-            return res.status(200).json({ message: "details updated", doc: doc });
+            return res.status(200).json({
+                status: 200,
+                message: "details updated",
+                doc: doc
+            });
         })
         .catch(err => {
             console.log(err);
@@ -181,10 +226,9 @@ router.put('/updateLga/:id', (req, res) => {
 
 // deleteVehicle -- Meant to delete a state
 
-router.delete('/deleteLga/:id', (req, res) => {
-    return lga.findOneAndRemove({ _id: req.params.id })
+router.delete('/deleteLga', (req, res) => {
+    return lga.deleteLga(req.body)
         .then(doc => {
-            log.info("Successfully deleted a LGA");
             return res.status(200).json({
                 status: 200,
                 message: "LGA deleted",
