@@ -24,13 +24,14 @@ const lgaSchema = new mongoose.Schema({
     lgaCode: {
         type: String,
         required: [true, 'Please add your LGA resident code'],
-        maxlength:3
+        maxlength:2
     },
     stateCode: {
         type: String,
         required: [true, 'Please add your state code'],
         maxlength:2
-    }
+    },
+    tin: String
 })
 
 module.exports = mongoose.model('lga', lgaSchema);
