@@ -1,9 +1,8 @@
 'use strict';
-
-// *created by Godfrey on 13-08-2018
-// *updated by Godfrey on 13-08-2018
-
-
+/***********************************
+ created by Godfrey on 13-08-2018
+ updated by Godfrey on 13-08-2018
+ **********************************/
 //=============================================================================
 /**
  * module dependencies
@@ -12,8 +11,7 @@
 const
     http    = require('http'),
     app     = require('./app'),
-    log     = require('./utils/logger').getLogger('APP');
-
+    log     = require('./models/utils/logger').getLogger('APP');
 //=============================================================================
 /**
  * HTTP server instance

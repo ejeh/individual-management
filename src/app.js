@@ -1,13 +1,14 @@
 'use strict';
-
-// *created by Godfrey on 13-08-2018
-// *updated by Godfrey on 13-08-2018
-
-
+/***********************************
+ created by Godfrey on 13-08-2018
+ updated by Godfrey on 14-08-2018
+ **********************************/
+//=========================================================================================
+/**
+ * module depencies
+ */
+//=========================================================================================
 require('dotenv').config();
-
-
-
 const
     express           	= require("express"),
     methodOverride    	= require("method-override"),
@@ -18,23 +19,20 @@ const
     logger          	  = require("morgan"),
     mongoose          	= require("mongoose"),
     cors              	=require('cors'),
-    log 		            = require('./utils/logger').getLogger('APP');
+    log 		            = require('./models/utils/logger').getLogger('APP');
 
 const app = express();
-
 
 const
     port = process.env.PORT,
     env = process.env.NODE_ENV,
     DBURL = process.env.DBURL;
+    
 let db;
-
-
 app.set('port', port);
 app.set('env', env);
+
 const routes = require('./routes/routes');
-
-
 mongoose.Promise = require('bluebird');
 
 var options = {
@@ -82,9 +80,9 @@ app.get("/", (req, res) => {
     return res.status(200).json({info:"welcome to App home"});
 })
 app.use('/settingsManagement', require('./routes/routes'));
-
-
-
+//=============================================================================
+/**
+ * module export
+ */
 //=============================================================================
 module.exports = app;
-//=============================================================================
